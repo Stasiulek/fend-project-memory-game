@@ -17,7 +17,8 @@ cards.forEach(function(card){
 
                 if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
                     console.log('cards match!!!');
-                    
+                    cardCounter[0].classList.add('match');
+                    cardCounter[1].classList.add('match');
                 }
 
 
