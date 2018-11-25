@@ -3,25 +3,36 @@
  */
 var cards = document.querySelectorAll('.card');
 
-var cardCounter = [];
 
+
+var cardCounter = [];
+var matchCounter = [];
 cards.forEach(function(card){
+    console.log(cards);
 	card.addEventListener('click', function(e) {
+
+        
 
             if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match') ){
 
                 cardCounter.push(card);
                 card.classList.add('open', 'show');
-               
-        
-
+            
                 if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
-                    console.log('cards match!!!');
+                    
+
                     cardCounter[0].classList.add('match');
                     cardCounter[1].classList.add('match');
+
+                    console.log('cards match!!!');
+                    matchCounter ++;
+                    console.log(`match counter is: ${matchCounter}`);
+
+                    //change to 8 once cards are rendered programatically and game starts with all cards face down
+                    if (matchCounter == 7) {
+                        alert('You win!');
+                    }
                 }
-
-
                 //if cards do not match, hide them
                 if (cardCounter.length == 2) {
                     setTimeout(function(){
@@ -38,10 +49,15 @@ cards.forEach(function(card){
                 
             }
 
+            // if (cards.classList.contains('match')) {
+            //     alert('win');
+            // }
+
 
    
 	});
 });
+
 
 /*
  * Display the cards on the page
@@ -51,6 +67,8 @@ cards.forEach(function(card){
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
