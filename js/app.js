@@ -3,12 +3,32 @@
  */
 var cards = document.querySelectorAll('.card');
 
-
+var cardCounter = [];
 
 cards.forEach(function(card){
 	card.addEventListener('click', function(e) {
-		card.classList.add('open', 'show');
-		
+
+            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match') ){
+                cardCounter.push(card);
+                card.classList.add('open', 'show');
+                console.log(cardCounter.length);
+        
+                if (cardCounter.length == 2) {
+                    setTimeout(function(){
+                        console.log('reset cardCounter now!')
+                        cardCounter = [];
+                        console.log(cardCounter.length);
+                        cards.forEach(function(card) {
+                            card.classList.remove('open', 'show');
+                        })
+                    }, 1000);
+                    
+                }
+                
+            }
+
+
+   
 	});
 });
 
