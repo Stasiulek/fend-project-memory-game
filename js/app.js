@@ -1,79 +1,34 @@
 /*
  * Create a list that holds all of your cards
  */
-var cards = document.querySelectorAll('.card');
-
+// 
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName("close")[0];
+var deck = document.querySelector('.deck');
+var cards = ['fa-diamond', 'fa-diamond',
+    'fa-paper-plane-o', 'fa-paper-plane-o',
+    'fa-anchor', 'fa-anchor',
+    'fa-bolt', 'fa-bolt',
+    'fa-cube', 'fa-cube',
+    'fa-leaf', 'fa-leaf',
+    'fa-bicycle', 'fa-bicycle',
+    'fa-bomb', 'fa-bomb',
+];
 
+function createCard(card) {
+    return `<li class="card" data-icon="fa-${card}">
+    <i class="fa ${card}"></i>`;
+}
 
-var cardCounter = [];
-var matchCounter = [];
-cards.forEach(function(card){
-    
-	card.addEventListener('click', function(e) {
+ function startGame () {
+    var dynamicCard = shuffle(cards).map(function(card){
+        return createCard(card);
+    });
 
-        
+    deck.innerHTML = dynamicCard.join('');
+ }
 
-            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match') ){
-
-                cardCounter.push(card);
-                card.classList.add('open', 'show');
-            
-                if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
-                    
-
-                    cardCounter[0].classList.add('match');
-                    cardCounter[1].classList.add('match');
-
-                    console.log('cards match!!!');
-                    matchCounter ++;
-                    console.log(`match counter is: ${matchCounter}`);
-
-                    
-
-                    //change to 8 once cards are rendered programatically and game starts with all cards face down
-                    if (matchCounter == 7) {
-                        modal.style.display = "block";
-                    
-                    span.onclick = function() {
-                        modal.style.display = "none";
-                    };
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    };
-                    }
-                    
-                        
-                }
-                //if cards do not match, hide them
-                if (cardCounter.length == 2) {
-                    setTimeout(function(){
-                        console.log('reset cardCounter now!')
-                        
-                        console.log(cardCounter.length);
-                        cards.forEach(function(card) {
-                            card.classList.remove('open', 'show');
-                        })
-                    }, 1000);
-                    cardCounter = [];
-                    
-                }
-                
-            }
-
-            // if (cards.classList.contains('match')) {
-            //     alert('win');
-            // }
-
-
-   
-	});
-});
-
-
+ startGame();
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -109,3 +64,54 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+var cardCounter = [];
+var matchCounter = [];
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    console.log("DOM fully loaded and parsed");
+  });
+//rename cards as already delcared in array above?
+  var cards = document.querySelectorAll('.card');
+
+cards.forEach(function (card) {
+    card.addEventListener('click', function (e) {
+        if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+
+            cardCounter.push(card);
+            card.classList.add('open', 'show');
+
+            if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
+                cardCounter[0].classList.add('match');
+                cardCounter[1].classList.add('match');
+                console.log('cards match!!!');
+                matchCounter++;
+                console.log(`match counter is: ${matchCounter}`);
+                //change to 8 once cards are rendered programatically and game starts with all cards face down
+                if (matchCounter == 8) {
+                    modal.style.display = "block";
+
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    };
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    };
+                }
+            }
+            //if cards do not match, hide them
+            if (cardCounter.length == 2) {
+                setTimeout(function () {
+                    console.log('reset cardCounter now!')
+
+                    console.log(cardCounter.length);
+                    cards.forEach(function (card) {
+                        card.classList.remove('open', 'show');
+                    })
+                }, 1000);
+                cardCounter = [];
+            }
+        }
+    });
+});
