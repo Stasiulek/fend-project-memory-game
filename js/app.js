@@ -3,12 +3,14 @@
  */
 var cards = document.querySelectorAll('.card');
 
+var modal = document.getElementById('myModal');
+var span = document.getElementsByClassName("close")[0];
 
 
 var cardCounter = [];
 var matchCounter = [];
 cards.forEach(function(card){
-    console.log(cards);
+    
 	card.addEventListener('click', function(e) {
 
         
@@ -28,10 +30,23 @@ cards.forEach(function(card){
                     matchCounter ++;
                     console.log(`match counter is: ${matchCounter}`);
 
+                    
+
                     //change to 8 once cards are rendered programatically and game starts with all cards face down
                     if (matchCounter == 7) {
-                        alert('You win!');
+                        modal.style.display = "block";
+                    
+                    span.onclick = function() {
+                        modal.style.display = "none";
+                    };
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    };
                     }
+                    
+                        
                 }
                 //if cards do not match, hide them
                 if (cardCounter.length == 2) {
