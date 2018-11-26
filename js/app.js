@@ -15,20 +15,34 @@ var cards = ['fa-diamond', 'fa-diamond',
     'fa-bomb', 'fa-bomb',
 ];
 
+var restart = document.getElementsByClassName('restart');
+// Get the modal
+var modal = document.getElementById('myModal');
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+btn.onclick = function () {
+    modal.style.display = "none"; 
+
+}
+// Get the <span> element that closes the modal
+
+var span = document.getElementsByClassName("close")[0];
+
 function createCard(card) {
     return `<li class="card" data-icon="fa-${card}">
     <i class="fa ${card}"></i>`;
 }
 
- function startGame () {
-    var dynamicCard = shuffle(cards).map(function(card){
+function startGame() {
+    var dynamicCard = shuffle(cards).map(function (card) {
         return createCard(card);
     });
 
     deck.innerHTML = dynamicCard.join('');
- }
+}
 
- startGame();
+startGame();
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -67,11 +81,11 @@ function shuffle(array) {
 var cardCounter = [];
 var matchCounter = [];
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
     console.log("DOM fully loaded and parsed");
-  });
+});
 //rename cards as already delcared in array above?
-  var cards = document.querySelectorAll('.card');
+var cards = document.querySelectorAll('.card');
 
 cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
@@ -90,14 +104,24 @@ cards.forEach(function (card) {
                 if (matchCounter == 8) {
                     modal.style.display = "block";
 
-                    span.onclick = function () {
-                        modal.style.display = "none";
-                    };
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    };
+
+                    // When the user clicks the button, reset game and close modal 
+                    
+
+
+                    // btn.onclick = function() {
+                    //     modal.style.display = "none";
+                    //     startGame();
+                    // }
+
+                    // span.onclick = function () {
+                    //     modal.style.display = "none";
+                    // };
+                    // window.onclick = function (event) {
+                    //     if (event.target == modal) {
+                    //         modal.style.display = "none";
+                    //     }
+                    // };
                 }
             }
             //if cards do not match, hide them
@@ -115,3 +139,17 @@ cards.forEach(function (card) {
         }
     });
 });
+
+
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
