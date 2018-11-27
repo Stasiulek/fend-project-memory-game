@@ -15,6 +15,22 @@ var cards = ['fa-diamond', 'fa-diamond',
     'fa-bomb', 'fa-bomb',
 ];
 
+//BASIC TIMER
+var timer = setInterval(counter, 1000);
+var time = 0;
+function counter() {
+    time++;
+    var hours = Math.floor(time/3600);
+    var minutes = Math.floor((time - hours*3600)/60);
+    var seconds = time - (hours*3600 + minutes*60);
+    document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
+}
+
+var pause = document.getElementById('pause');
+pause.onclick = function () {
+    clearInterval(timer);
+}
+
 var restart = document.getElementsByClassName('restart');
 // Get the modal
 var modal = document.getElementById('myModal');
