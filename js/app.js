@@ -15,6 +15,13 @@ var cards = ['fa-diamond', 'fa-diamond',
     'fa-bomb', 'fa-bomb',
 ];
 
+var moves = 0;
+function moveCounter() {
+    moves++;
+    var movesValue = document.querySelector('#moves');
+    movesValue.innerHTML = moves; 
+}
+
 //BASIC TIMER
 var timer = setInterval(counter, 1000);
 var time = 0;
@@ -30,6 +37,13 @@ var pause = document.getElementById('pause');
 pause.onclick = function () {
     clearInterval(timer);
 }
+
+// TODO implement
+// var resume = document.getElementById('resume');
+// resume.onclick = function () {
+//     clearInterval(timer);
+// }
+
 
 var restart = document.getElementsByClassName('restart');
 // Get the modal
@@ -142,6 +156,7 @@ cards.forEach(function (card) {
             }
             //if cards do not match, hide them
             if (cardCounter.length == 2) {
+                moveCounter();
                 setTimeout(function () {
                     console.log('reset cardCounter now!')
 
