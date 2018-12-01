@@ -1,9 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
-// 
-var modal = document.getElementById('myModal');
-var span = document.getElementsByClassName("close")[0];
+// List of cards
 var deck = document.querySelector('.deck');
 var cards = ['fa-diamond', 'fa-diamond',
     'fa-paper-plane-o', 'fa-paper-plane-o',
@@ -15,62 +10,91 @@ var cards = ['fa-diamond', 'fa-diamond',
     'fa-bomb', 'fa-bomb',
 ];
 
+
+// SHOW NUMBER OF MOVES MADE (2 clicks = 1 move)
 var moves = 0;
 function moveCounter() {
     moves++;
     var movesValue = document.querySelector('#moves');
-    movesValue.innerHTML = moves; 
+    movesValue.innerHTML = moves;
 }
 
-//BASIC TIMER
-var timer = setInterval(counter, 1000);
+// REMOVE STARS
+function trackMoves() {
+    if (moves === 12 || moves === 24) {
+        removeStar();
+    }
+}
+function removeStar() {
+    var starsList = document.querySelectorAll('.stars');
+    starsList.style.display = 'none';
+}
+
+// TIMER
 var time = 0;
-function counter() {
-    time++;
-    var hours = Math.floor(time/3600);
-    var minutes = Math.floor((time - hours*3600)/60);
-    var seconds = time - (hours*3600 + minutes*60);
-    document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
-}
+var myInterval = -1;
+var timerButton = document.getElementById('timerButton');
+var timer = document.getElementById('timer');
 
-var pause = document.getElementById('pause');
-pause.onclick = function () {
-    clearInterval(timer);
-}
+timerButton.addEventListener('click', function (event) {
+    //if paused, start
+    if (myInterval == -1) {
+        timerButton.innerHTML = 'Pause';
+        myInterval = setInterval(function () {
+            time++;
+            timer.innerHTML = time;
+        }, 1000);
+    } else {
+        timerButton.innerHTML = 'Resume';
+        clearInterval(myInterval);
+        myInterval = -1;
+    }
+});
 
-// TODO implement
-// var resume = document.getElementById('resume');
-// resume.onclick = function () {
+//TODO FORMAT TIMER
+// function counter() {
+//     time++;
+//     myInterval++;
+//     var hours = Math.floor(time/3600);
+//     var minutes = Math.floor((time - hours*3600)/60);
+//     var seconds = time - (hours*3600 + minutes*60);
+//     document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
+// }
+// var pause = document.getElementById('pause');
+// pause.onclick = function () {
 //     clearInterval(timer);
 // }
 
-
-var restart = document.getElementsByClassName('restart');
-// Get the modal
+// MODAL
 var modal = document.getElementById('myModal');
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-btn.onclick = function () {
-    modal.style.display = "none"; 
-
-}
-// Get the <span> element that closes the modal
-
 var span = document.getElementsByClassName("close")[0];
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function () {
+    modal.style.display = "none";
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+    modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
+//CREATE DECK OF CARDS
 function createCard(card) {
     return `<li class="card" data-icon="fa-${card}">
     <i class="fa ${card}"></i>`;
 }
-
 function startGame() {
     var dynamicCard = shuffle(cards).map(function (card) {
         return createCard(card);
     });
-
     deck.innerHTML = dynamicCard.join('');
 }
-
 startGame();
 
 /*
@@ -81,7 +105,6 @@ startGame();
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -97,7 +120,6 @@ function shuffle(array) {
     return array;
 }
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -108,11 +130,11 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
 var cardCounter = [];
 var matchCounter = [];
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    console.log("DOM fully loaded and parsed");
 });
 //rename cards as already delcared in array above?
 var cards = document.querySelectorAll('.card');
@@ -127,38 +149,16 @@ cards.forEach(function (card) {
             if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
                 cardCounter[0].classList.add('match');
                 cardCounter[1].classList.add('match');
-                console.log('cards match!!!');
                 matchCounter++;
-                console.log(`match counter is: ${matchCounter}`);
-                //change to 8 once cards are rendered programatically and game starts with all cards face down
                 if (matchCounter == 8) {
                     modal.style.display = "block";
-
-
-                    // When the user clicks the button, reset game and close modal 
-                    
-
-
-                    // btn.onclick = function() {
-                    //     modal.style.display = "none";
-                    //     startGame();
-                    // }
-
-                    // span.onclick = function () {
-                    //     modal.style.display = "none";
-                    // };
-                    // window.onclick = function (event) {
-                    //     if (event.target == modal) {
-                    //         modal.style.display = "none";
-                    //     }
-                    // };
                 }
             }
             //if cards do not match, hide them
             if (cardCounter.length == 2) {
                 moveCounter();
                 setTimeout(function () {
-                    console.log('reset cardCounter now!')
+                
 
                     console.log(cardCounter.length);
                     cards.forEach(function (card) {
@@ -171,16 +171,3 @@ cards.forEach(function (card) {
     });
 });
 
-
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}

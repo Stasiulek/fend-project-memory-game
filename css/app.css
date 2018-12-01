@@ -151,3 +151,8 @@ h1 {
 #pause:hover {
     cursor:pointer;
 }
+
+
+.hidden {
+    display: none;
+}
