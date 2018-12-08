@@ -11,45 +11,107 @@ var cards = ['fa-diamond', 'fa-diamond',
 ];
 
 
-// SHOW NUMBER OF MOVES MADE (2 clicks = 1 move)
+// STAR RATING [REFACTORING NEEDED!!!!]
 var moves = 0;
 function moveCounter() {
     moves++;
     var movesValue = document.querySelector('#moves');
     movesValue.innerHTML = moves;
-}
-
-// REMOVE STARS
-function trackMoves() {
-    if (moves === 12 || moves === 24) {
+    if (moves == 2) {
         removeStar();
+    } else if (moves == 4) {
+        removeStar1();
+    } else if (moves == 6) {
+        removeStar2();
     }
 }
+
 function removeStar() {
-    var starsList = document.querySelectorAll('.stars');
-    starsList.style.display = 'none';
+    var starsList = document.querySelectorAll('.stars li');
+    starsList[0].style.display = 'none';
+}
+function removeStar1() {
+    var starsList = document.querySelectorAll('.stars li');
+    starsList[1].style.display = 'none';
+}
+function removeStar2() {
+    var starsList = document.querySelectorAll('.stars li');
+    starsList[2].style.display = 'none';
 }
 
-// TIMER
-var time = 0;
-var myInterval = -1;
-var timerButton = document.getElementById('timerButton');
-var timer = document.getElementById('timer');
 
+
+var timerButton = document.getElementById('timerButton');
 timerButton.addEventListener('click', function (event) {
-    //if paused, start
-    if (myInterval == -1) {
-        timerButton.innerHTML = 'Pause';
-        myInterval = setInterval(function () {
-            time++;
-            timer.innerHTML = time;
-        }, 1000);
-    } else {
-        timerButton.innerHTML = 'Resume';
-        clearInterval(myInterval);
-        myInterval = -1;
+    // timerButton.innerHTML = 'RAWR';
+    // clearInterval(timer);
+})
+
+var clickToStart =  document.querySelector('.deck');
+
+clickToStart.addEventListener("click", function() {
+    var sec = 0;
+    var intro = document.getElementById('intro');
+    intro.innerHTML = 'Game has begun!';
+    timerButton.innerHTML = 'Pause';
+    function pad(val) {
+        return val > 9 ? val : "0" + val;
     }
-});
+    var timer = setInterval(function () {
+        document.getElementById("seconds").innerHTML = pad(++sec % 60);
+        document.getElementById("minutes").innerHTML = pad(parseInt(sec / 60, 10));
+    }, 1000);
+
+}, {once : true});
+
+//clearInterval(timer);
+
+
+// var time = 0;
+// var myInterval = -1;
+// var timerButton = document.getElementById('timerButton');
+// var timer = document.getElementById('timer');
+
+// timerButton.addEventListener('click', function (event) {
+//     //if paused, start
+//     if (myInterval == -1) {
+//         timerButton.innerHTML = 'Pause';
+//         myInterval = setInterval(function () {
+//             time++;
+
+//             var hour = Math.floor(time/3600);
+//             if (hour < 10) hour = '0' + hour;
+//             var min = Math.floor((time - hour*3600)/60);
+//             if (min < 0) min = '0' + min;
+//             var sec = time - (hour*3600 + min*60);
+//             if (sec < 10) sec = '0' + sec;
+
+//             // if (sec == 59) {
+//             //     if (min == 59) {
+//             //         hour++;
+//             //         min = 0;
+//             //         if (hour < 10) hour = '0' + hour;
+
+//             //     } else {
+//             //         min++;
+//             //     } if (min < 0) min = '0' + min;
+//             //     sec = 0;
+//             //     if (sec < 10) sec = '0' + sec;
+
+//             //     // document.getElementById('timer').innerHTML = hour + ':' + min + ':' + sec;
+
+//             // } 
+//             timeFormatted = hour + ':' + min + ':' + sec;
+//             timer.innerHTML = timeFormatted
+//         }, 1000);
+//     } else {
+//         timerButton.innerHTML = 'Resume';
+//         clearInterval(myInterval);
+//         myInterval = -1;
+//     }
+// });
+
+
 
 //TODO FORMAT TIMER
 // function counter() {
@@ -145,6 +207,8 @@ cards.forEach(function (card) {
 
             cardCounter.push(card);
             card.classList.add('open', 'show');
+           
+            
 
             if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
                 cardCounter[0].classList.add('match');
@@ -152,15 +216,16 @@ cards.forEach(function (card) {
                 matchCounter++;
                 if (matchCounter == 8) {
                     modal.style.display = "block";
+                    
                 }
             }
             //if cards do not match, hide them
             if (cardCounter.length == 2) {
                 moveCounter();
                 setTimeout(function () {
-                
 
-                    console.log(cardCounter.length);
+
+
                     cards.forEach(function (card) {
                         card.classList.remove('open', 'show');
                     })

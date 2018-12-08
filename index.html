@@ -16,7 +16,13 @@
         <header>
             <h1>Matching Game</h1>
         </header>
-        <h2 id="timer"><strong>0:00</strong></h2>
+        <h3 id="intro">Click on any card to start the game!</h3>
+        <h2 id="timer"><span id="minutes">00</span>:<span id="seconds">00</span></h2>
+        <button id="reset">Reset</button>
+        
+        
+
+
         <!-- <button id="pause">Pause game</button>
         <button id="resume">Resume game</button> -->
         <button id="timerButton">Start</button>
@@ -96,6 +102,8 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>Congratulations you win!</p>
+            <p>Time: 00:00</p>
+            <p>Rating: 3 stars</p>
             <button id="myBtn">Play again?</button>
         </div>
 
