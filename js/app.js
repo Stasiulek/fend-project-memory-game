@@ -39,30 +39,48 @@ function removeStar2() {
     starsList[2].style.display = 'none';
 }
 
-
+// var seconds = pad(++sec % 60).toString()
+// var minutes = pad(parseInt(sec / 60, 10)).toString()
+// document.getElementById("time").innerHTML = minutes + ":" + seconds
 
 var timerButton = document.getElementById('timerButton');
+var clickToStart = document.querySelector('.deck');
+var timerRunning = false;
+var myInterval = null;
+var sec = 0;
+var intro = document.getElementById('intro');
+ 
+function pad(val) {
+    return val > 9 ? val : "0" + val;
+}
+ 
+function myTimer() {
+    var seconds = pad(++sec % 60).toString()
+    var minutes = pad(parseInt(sec / 60, 10)).toString()
+    document.getElementById("time").innerHTML = minutes + ":" + seconds  
+}
+ 
+clickToStart.addEventListener("click", function () {
+    intro.innerHTML = 'Game has begun!';
+    timerRunning = true;
+    timerButton.innerHTML = 'Pause';
+    myInterval = setInterval(myTimer, 1000);
+ 
+}, { once: true });
+ 
 timerButton.addEventListener('click', function (event) {
-    // timerButton.innerHTML = 'RAWR';
-    // clearInterval(timer);
+    if (timerRunning === true) {
+        clearInterval(myInterval);
+        timerRunning = false;
+        timerButton.innerHTML = 'Resume';
+    } else {
+        timerButton.innerHTML = 'Pause';
+        console.log('i am  still working...');
+        myInterval = setInterval(myTimer, 1000);
+        timerRunning = true;
+    }
 })
 
-var clickToStart =  document.querySelector('.deck');
-
-clickToStart.addEventListener("click", function() {
-    var sec = 0;
-    var intro = document.getElementById('intro');
-    intro.innerHTML = 'Game has begun!';
-    timerButton.innerHTML = 'Pause';
-    function pad(val) {
-        return val > 9 ? val : "0" + val;
-    }
-    var timer = setInterval(function () {
-        document.getElementById("seconds").innerHTML = pad(++sec % 60);
-        document.getElementById("minutes").innerHTML = pad(parseInt(sec / 60, 10));
-    }, 1000);
-
-}, {once : true});
 
 //clearInterval(timer);
 
@@ -207,24 +225,21 @@ cards.forEach(function (card) {
 
             cardCounter.push(card);
             card.classList.add('open', 'show');
-           
-            
 
             if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
                 cardCounter[0].classList.add('match');
                 cardCounter[1].classList.add('match');
                 matchCounter++;
                 if (matchCounter == 8) {
+                    clearInterval(myInterval);
                     modal.style.display = "block";
-                    
+
                 }
             }
             //if cards do not match, hide them
             if (cardCounter.length == 2) {
                 moveCounter();
                 setTimeout(function () {
-
-
 
                     cards.forEach(function (card) {
                         card.classList.remove('open', 'show');
