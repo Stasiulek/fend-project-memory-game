@@ -82,6 +82,8 @@ timerButton.addEventListener('click', function (event) {
 })
 
 
+
+
 //clearInterval(timer);
 
 
@@ -150,6 +152,10 @@ var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName("close")[0];
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
+var modalTime = document.getElementById('finishTime');
+
+
+
 btn.onclick = function () {
     modal.style.display = "none";
 }
@@ -214,6 +220,14 @@ function shuffle(array) {
 var cardCounter = [];
 var matchCounter = [];
 
+function win() {
+    clearInterval(myInterval);
+
+                    modal.style.display = "block";
+                    finishTime = time.innerHTML;
+                    document.getElementById("modalTime").innerHTML = finishTime;
+}
+
 document.addEventListener("DOMContentLoaded", function (event) {
 });
 //rename cards as already delcared in array above?
@@ -231,8 +245,12 @@ cards.forEach(function (card) {
                 cardCounter[1].classList.add('match');
                 matchCounter++;
                 if (matchCounter == 8) {
+
                     clearInterval(myInterval);
+
                     modal.style.display = "block";
+                    finishTime = time.innerHTML;
+                    document.getElementById("modalTime").innerHTML = finishTime;
 
                 }
             }
