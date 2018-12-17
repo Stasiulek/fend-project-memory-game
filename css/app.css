@@ -38,32 +38,45 @@ h1 {
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+    max-width: 660px;
+    width: 100%;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 3em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.1rem;
+    list-style-type: none;
+}
+
+@media screen and (min-width: 700px) {
+
+    .deck {
+        grid-gap: 1rem;
+    }
+        
 }
 
 .deck .card {
-    height: 125px;
-    width: 125px;
+    width: 100%;
+    position: relative;
     background: #2e3d49;
     font-size: 0;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    padding-top: 100%;
 }
+
+.deck .card .fa {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .deck .card.open {
     transform: rotateY(0);

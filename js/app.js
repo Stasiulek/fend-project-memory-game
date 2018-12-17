@@ -161,43 +161,71 @@ var cards = document.querySelectorAll('.card');
 //[BUGS] fast clicking turns over more than two cards at a time, matching sometimes fails too
 cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
-        if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
-
-            cardCounter.push(card);
-            card.classList.add('open', 'show');
-
-            if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
-                cardCounter[0].classList.add('match');
-                cardCounter[1].classList.add('match');
-                matchCounter++;
-                if (matchCounter == 8) {
-                    clearInterval(myInterval);
-                    modal.style.display = "block";
-                    finishTime = time.innerHTML;
-                    document.getElementById("modalTime").innerHTML = finishTime;
-                }
+        var cardCounterLength = cardCounter.length;
+        console.log(cardCounterLength);
+        switch(cardCounterLength) {
+            case 0:
+            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
+                cardCounter.push(card);
+                card.classList.add('open', 'show');
             }
-            //if cards do not match, hide them
-            if (cardCounter.length == 2) {
+              break;
+            case 1:
+            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
+                cardCounter.push(card);
+                card.classList.add('open', 'show');
+
+                if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
+                    cardCounter[0].classList.add('match');
+                    cardCounter[1].classList.add('match');
+                    matchCounter++;
+                    cardCounter = [];
+                    if (matchCounter == 8) {
+                        clearInterval(myInterval);
+                        modal.style.display = "block";
+                        finishTime = time.innerHTML;
+                        document.getElementById("modalTime").innerHTML = finishTime;
+                    }
+                }
+
                 moveCounter();
                 setTimeout(function () {
-                    cards.forEach(function (card) {
-                        card.classList.remove('open', 'show');
-                    })
+                    if (cardCounterLength === 2) {
+                        cards.forEach(function (el) {
+                            el.classList.remove('open', 'show');
+                            cardCounter = [];
+                        })
+                    }
                 }, 1000);
-                cardCounter = [];
             }
-        }
+              break;
+            default:
+            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+                cards.forEach(function (el) {
+                    el.classList.remove('open', 'show');
+                    cardCounter = [];
+                });
+                cardCounter.push(card);
+                card.classList.add('open', 'show');
+            }
+          } 
     });
 });
 
 //Refactor to reset variables instead of hardcoding write to .innerHTML?
 function restartGame() {
     clearInterval(myInterval);
+    sec = 0;
     document.getElementById("time").innerHTML = "00:00";
-    timerButton.innerHTML = 'Start';
+    myInterval = setInterval(myTimer, 1000);
+    // timerButton.innerHTML = 'Start';
     cardCounter = [];
     matchCounter = [];
+
+    cards.forEach(function (el) {
+        el.classList.remove('open', 'show', 'match');
+        cardCounter = [];
+    });
     //restore MOVES
     //restore 3 star rating
     starsList[0].style.display = 'inline-block';
