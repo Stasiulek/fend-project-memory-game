@@ -1,4 +1,4 @@
-// List of cards
+//UI vars
 var deck = document.querySelector('.deck');
 var cards = ['fa-diamond', 'fa-diamond',
     'fa-paper-plane-o', 'fa-paper-plane-o',
@@ -9,13 +9,35 @@ var cards = ['fa-diamond', 'fa-diamond',
     'fa-bicycle', 'fa-bicycle',
     'fa-bomb', 'fa-bomb',
 ];
+var starsList = document.querySelectorAll('.stars li');
+var restartBtn = document.querySelector('.restart');
+var timerButton = document.getElementById('timerButton');
+var clickToStart = document.querySelector('.deck');
+var intro = document.getElementById('intro');
+var modal = document.getElementById('myModal');
+var span = document.getElementsByClassName("close")[0];
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+var modalTime = document.getElementById('finishTime');
+var modalMoves = document.getElementById('finishMoves');
 
+//LOGIC vars
+var timerRunning = false;
+var myInterval = null;
 
-// STAR RATING [REFACTORING NEEDED!] forEach loop? Cycling+star removal must be done programmatically
+//FUNCTIONALITY/FEATURE vars init
 var moves = 0;
+var sec = 0;
+var cardCounter = [];
+var matchCounter = [];
+
+//FUNCTIONS
+
+
+// STAR RATING (needs refactoring!)
 function moveCounter() {
     moves++;
-    var movesValue = document.querySelector('#moves');
+    var movesValue = document.querySelector('#movesMade');
     movesValue.innerHTML = moves;
     if (moves == 2) {
         removeStar();
@@ -25,7 +47,6 @@ function moveCounter() {
         removeStar2();
     }
 }
-var starsList = document.querySelectorAll('.stars li');
 
 function removeStar() {
     starsList[0].style.display = 'none';
@@ -37,14 +58,7 @@ function removeStar2() {
     starsList[2].style.display = 'none';
 }
 
-var restartBtn = document.querySelector('.restart');
-var timerButton = document.getElementById('timerButton');
-var clickToStart = document.querySelector('.deck');
-var timerRunning = false;
-var myInterval = null;
-var sec = 0;
-var intro = document.getElementById('intro');
-
+//TIMER
 function pad(val) {
     return val > 9 ? val : "0" + val;
 }
@@ -55,6 +69,7 @@ function myTimer() {
     document.getElementById("time").innerHTML = minutes + ":" + seconds
 }
 
+//START GAME
 clickToStart.addEventListener("click", function () {
     intro.innerHTML = 'Game has begun!';
     timerRunning = true;
@@ -70,27 +85,20 @@ timerButton.addEventListener('click', function (event) {
         timerButton.innerHTML = 'Resume';
     } else {
         timerButton.innerHTML = 'Pause';
-        console.log('i am  still working...');
         myInterval = setInterval(myTimer, 1000);
         timerRunning = true;
     }
 })
 
-// MODAL
-var modal = document.getElementById('myModal');
-var span = document.getElementsByClassName("close")[0];
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
-var modalTime = document.getElementById('finishTime');
-
+//MODAL
 btn.onclick = function () {
     modal.style.display = "none";
 }
-// When the user clicks on <span> (x), close the modal
+
 span.onclick = function () {
     modal.style.display = "none";
 }
-// When the user clicks anywhere outside of the modal, close it
+
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
@@ -110,18 +118,8 @@ function startGame() {
 }
 startGame();
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -129,86 +127,69 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-var cardCounter = [];
-var matchCounter = [];
-
+//Win game
 function win() {
     clearInterval(myInterval);
     modal.style.display = "block";
     finishTime = time.innerHTML;
     document.getElementById("modalTime").innerHTML = finishTime;
+    finishMoves = movesMade.innerHTML;
+    document.getElementById("modalMoves").innerHTML = finishMoves;
 }
 
-document.addEventListener("DOMContentLoaded", function (event) {
-});
-//rename cards as already declared in array above?
 var cards = document.querySelectorAll('.card');
-//[BUGS] fast clicking turns over more than two cards at a time, matching sometimes fails too
 cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
         var cardCounterLength = cardCounter.length;
-        console.log(cardCounterLength);
-        switch(cardCounterLength) {
+        switch (cardCounterLength) {
             case 0:
-            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
-                cardCounter.push(card);
-                card.classList.add('open', 'show');
-            }
-              break;
-            case 1:
-            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
-                cardCounter.push(card);
-                card.classList.add('open', 'show');
-
-                if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
-                    cardCounter[0].classList.add('match');
-                    cardCounter[1].classList.add('match');
-                    matchCounter++;
-                    cardCounter = [];
-                    if (matchCounter == 8) {
-                        clearInterval(myInterval);
-                        modal.style.display = "block";
-                        finishTime = time.innerHTML;
-                        document.getElementById("modalTime").innerHTML = finishTime;
-                    }
+                if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+                    cardCounter.push(card);
+                    card.classList.add('open', 'show');
                 }
+                break;
+            case 1:
+                if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+                    cardCounter.push(card);
+                    card.classList.add('open', 'show');
 
-                moveCounter();
-                setTimeout(function () {
-                    if (cardCounterLength === 2) {
-                        cards.forEach(function (el) {
-                            el.classList.remove('open', 'show');
-                            cardCounter = [];
-                        })
+                    if (cardCounter[0].dataset.icon === cardCounter[1].dataset.icon) {
+                        cardCounter[0].classList.add('match');
+                        cardCounter[1].classList.add('match');
+                        matchCounter++;
+                        cardCounter = [];
+                        if (matchCounter == 8) {
+                            clearInterval(myInterval);
+                            modal.style.display = "block";
+                            finishTime = time.innerHTML;
+                            document.getElementById("modalTime").innerHTML = finishTime;
+                        }
                     }
-                }, 1000);
-            }
-              break;
+
+                    moveCounter();
+                    setTimeout(function () {
+                        if (cardCounterLength === 2) {
+                            cards.forEach(function (el) {
+                                el.classList.remove('open', 'show');
+                                cardCounter = [];
+                            })
+                        }
+                    }, 1000);
+                }
+                break;
             default:
-            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
-                cards.forEach(function (el) {
-                    el.classList.remove('open', 'show');
-                    cardCounter = [];
-                });
-                cardCounter.push(card);
-                card.classList.add('open', 'show');
-            }
-          } 
+                if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+                    cards.forEach(function (el) {
+                        el.classList.remove('open', 'show');
+                        cardCounter = [];
+                    });
+                    cardCounter.push(card);
+                    card.classList.add('open', 'show');
+                }
+        }
     });
 });
 
@@ -221,17 +202,13 @@ function restartGame() {
     // timerButton.innerHTML = 'Start';
     cardCounter = [];
     matchCounter = [];
-
     cards.forEach(function (el) {
         el.classList.remove('open', 'show', 'match');
         cardCounter = [];
     });
-    //restore MOVES
-    //restore 3 star rating
     starsList[0].style.display = 'inline-block';
     starsList[1].style.display = 'inline-block';
     starsList[2].style.display = 'inline-block';
-    console.log('resetting star rating');
 }
 
 restartBtn.addEventListener("click", function () {
