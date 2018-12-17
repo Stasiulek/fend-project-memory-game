@@ -11,7 +11,7 @@ var cards = ['fa-diamond', 'fa-diamond',
 ];
 
 
-// STAR RATING [REFACTORING NEEDED!!!!]
+// STAR RATING [REFACTORING NEEDED!] forEach loop? Cycling+star removal must be done programmatically
 var moves = 0;
 function moveCounter() {
     moves++;
@@ -25,49 +25,44 @@ function moveCounter() {
         removeStar2();
     }
 }
+var starsList = document.querySelectorAll('.stars li');
 
 function removeStar() {
-    var starsList = document.querySelectorAll('.stars li');
     starsList[0].style.display = 'none';
 }
 function removeStar1() {
-    var starsList = document.querySelectorAll('.stars li');
     starsList[1].style.display = 'none';
 }
 function removeStar2() {
-    var starsList = document.querySelectorAll('.stars li');
     starsList[2].style.display = 'none';
 }
 
-// var seconds = pad(++sec % 60).toString()
-// var minutes = pad(parseInt(sec / 60, 10)).toString()
-// document.getElementById("time").innerHTML = minutes + ":" + seconds
-
+var restartBtn = document.querySelector('.restart');
 var timerButton = document.getElementById('timerButton');
 var clickToStart = document.querySelector('.deck');
 var timerRunning = false;
 var myInterval = null;
 var sec = 0;
 var intro = document.getElementById('intro');
- 
+
 function pad(val) {
     return val > 9 ? val : "0" + val;
 }
- 
+
 function myTimer() {
     var seconds = pad(++sec % 60).toString()
     var minutes = pad(parseInt(sec / 60, 10)).toString()
-    document.getElementById("time").innerHTML = minutes + ":" + seconds  
+    document.getElementById("time").innerHTML = minutes + ":" + seconds
 }
- 
+
 clickToStart.addEventListener("click", function () {
     intro.innerHTML = 'Game has begun!';
     timerRunning = true;
     timerButton.innerHTML = 'Pause';
     myInterval = setInterval(myTimer, 1000);
- 
+
 }, { once: true });
- 
+
 timerButton.addEventListener('click', function (event) {
     if (timerRunning === true) {
         clearInterval(myInterval);
@@ -81,80 +76,12 @@ timerButton.addEventListener('click', function (event) {
     }
 })
 
-
-
-
-//clearInterval(timer);
-
-
-// var time = 0;
-// var myInterval = -1;
-// var timerButton = document.getElementById('timerButton');
-// var timer = document.getElementById('timer');
-
-// timerButton.addEventListener('click', function (event) {
-//     //if paused, start
-//     if (myInterval == -1) {
-//         timerButton.innerHTML = 'Pause';
-//         myInterval = setInterval(function () {
-//             time++;
-
-//             var hour = Math.floor(time/3600);
-//             if (hour < 10) hour = '0' + hour;
-//             var min = Math.floor((time - hour*3600)/60);
-//             if (min < 0) min = '0' + min;
-//             var sec = time - (hour*3600 + min*60);
-//             if (sec < 10) sec = '0' + sec;
-
-//             // if (sec == 59) {
-//             //     if (min == 59) {
-//             //         hour++;
-//             //         min = 0;
-//             //         if (hour < 10) hour = '0' + hour;
-
-//             //     } else {
-//             //         min++;
-//             //     } if (min < 0) min = '0' + min;
-//             //     sec = 0;
-//             //     if (sec < 10) sec = '0' + sec;
-
-//             //     // document.getElementById('timer').innerHTML = hour + ':' + min + ':' + sec;
-
-//             // } 
-//             timeFormatted = hour + ':' + min + ':' + sec;
-//             timer.innerHTML = timeFormatted
-//         }, 1000);
-//     } else {
-//         timerButton.innerHTML = 'Resume';
-//         clearInterval(myInterval);
-//         myInterval = -1;
-//     }
-// });
-
-
-
-//TODO FORMAT TIMER
-// function counter() {
-//     time++;
-//     myInterval++;
-//     var hours = Math.floor(time/3600);
-//     var minutes = Math.floor((time - hours*3600)/60);
-//     var seconds = time - (hours*3600 + minutes*60);
-//     document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
-// }
-// var pause = document.getElementById('pause');
-// pause.onclick = function () {
-//     clearInterval(timer);
-// }
-
 // MODAL
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName("close")[0];
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 var modalTime = document.getElementById('finishTime');
-
-
 
 btn.onclick = function () {
     modal.style.display = "none";
@@ -222,17 +149,16 @@ var matchCounter = [];
 
 function win() {
     clearInterval(myInterval);
-
-                    modal.style.display = "block";
-                    finishTime = time.innerHTML;
-                    document.getElementById("modalTime").innerHTML = finishTime;
+    modal.style.display = "block";
+    finishTime = time.innerHTML;
+    document.getElementById("modalTime").innerHTML = finishTime;
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
 });
-//rename cards as already delcared in array above?
+//rename cards as already declared in array above?
 var cards = document.querySelectorAll('.card');
-
+//[BUGS] fast clicking turns over more than two cards at a time, matching sometimes fails too
 cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
         if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
@@ -245,20 +171,16 @@ cards.forEach(function (card) {
                 cardCounter[1].classList.add('match');
                 matchCounter++;
                 if (matchCounter == 8) {
-
                     clearInterval(myInterval);
-
                     modal.style.display = "block";
                     finishTime = time.innerHTML;
                     document.getElementById("modalTime").innerHTML = finishTime;
-
                 }
             }
             //if cards do not match, hide them
             if (cardCounter.length == 2) {
                 moveCounter();
                 setTimeout(function () {
-
                     cards.forEach(function (card) {
                         card.classList.remove('open', 'show');
                     })
@@ -269,3 +191,21 @@ cards.forEach(function (card) {
     });
 });
 
+//Refactor to reset variables instead of hardcoding write to .innerHTML?
+function restartGame() {
+    clearInterval(myInterval);
+    document.getElementById("time").innerHTML = "00:00";
+    timerButton.innerHTML = 'Start';
+    cardCounter = [];
+    matchCounter = [];
+    //restore MOVES
+    //restore 3 star rating
+    starsList[0].style.display = 'inline-block';
+    starsList[1].style.display = 'inline-block';
+    starsList[2].style.display = 'inline-block';
+    console.log('resetting star rating');
+}
+
+restartBtn.addEventListener("click", function () {
+    restartGame();
+})
