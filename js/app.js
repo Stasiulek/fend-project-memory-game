@@ -36,27 +36,52 @@ var matchCounter = [];
 //FUNCTIONS
 
 // STAR RATING (needs refactoring!)
+// function moveCounter() {
+//     moves++;
+//     movesValue.innerHTML = moves;
+//     if (moves == 1) {
+//         removeStar();
+//     } else if (moves == 2) {
+//         removeStar();
+//     } else if (moves == 3) {
+//         removeStar();
+//     }
+// }
+
 function moveCounter() {
-    moves++; 
+    moves++;
     movesValue.innerHTML = moves;
-    if (moves == 1) {
+    if (moves == 1 || moves == 2 || moves == 3 ) {
         removeStar();
-    } else if (moves == 2) {
-        removeStar1();
-    } else if (moves == 3) {
-        removeStar2();
-    }
+    } 
 }
 
+var i = 0;
 function removeStar() {
-    starsList[0].classList.add('d-none');
+    starsList[i].classList.add('d-none');
+    i++;
 }
-function removeStar1() {
-    starsList[1].classList.add('d-none');
-}
-function removeStar2() {
-    starsList[2].classList.add('d-none');
-}
+
+
+
+// var foo = 0;
+// function doSomething(){
+// alert(foo);
+// foo++;
+// }
+
+// function removeStar() {
+//     for (i = 0; i < starsList.length; i++) {
+//         starsList[i].classList.add('d-none');
+//         return;
+//     }
+// }
+// function removeStar1() {
+//     starsList[1].classList.add('d-none');
+// }
+// function removeStar2() {
+//     starsList[2].classList.add('d-none');
+// }
 
 //TIMER
 function pad(val) {
@@ -69,7 +94,7 @@ function myTimer() {
     document.getElementById("time").innerHTML = minutes + ":" + seconds
 }
 
-//START GAME
+//START GAME 
 clickToStart.addEventListener("click", function () {
     intro.innerHTML = 'Game has begun!';
     timerRunning = true;
@@ -117,6 +142,7 @@ function startGame() {
     });
     deck.innerHTML = dynamicCard.join('');
 }
+//STARTGAME CURRENTLY NOT WORKING. TYPEOF SHUFFLE(CARDS) = OBJ. CANNOT MAP OVER OBJ. --> ?!
 startGame();
 
 function shuffle(array) {
@@ -141,13 +167,11 @@ function win() {
     document.getElementById("modalMoves").innerHTML = finishMoves;
 
     var countStars = document.querySelectorAll('.stars > li').length - document.querySelectorAll('.stars > li.d-none').length;
-if (countStars !== 1) {
-    document.getElementById("starRating").innerHTML = countStars + ' stars';
-} else {
-    document.getElementById("starRating").innerHTML = countStars + ' star';
-}
-    
-
+    if (countStars !== 1) {
+        document.getElementById("starRating").innerHTML = countStars + ' stars';
+    } else {
+        document.getElementById("starRating").innerHTML = countStars + ' star';
+    }
 }
 
 var cards = document.querySelectorAll('.card');
@@ -173,10 +197,6 @@ cards.forEach(function (card) {
                         cardCounter = [];
                         if (matchCounter == 8) {
                             win();
-                            // clearInterval(myInterval);
-                            // modal.style.display = "block";
-                            // finishTime = time.innerHTML;
-                            // document.getElementById("modalTime").innerHTML = finishTime;
                         }
                     }
 
@@ -209,8 +229,10 @@ function restartGame() {
     clearInterval(myInterval);
     sec = 0;
     document.getElementById("time").innerHTML = "00:00";
+    i = 0;
     cardCounter = [];
     matchCounter = [];
+    intro.innerHTML = 'Click on any card to start the game!';
     cards.forEach(function (el) {
         el.classList.remove('open', 'show', 'match');
         cardCounter = [];
@@ -220,7 +242,8 @@ function restartGame() {
     starsList[2].classList.remove('d-none');
     movesValue.innerHTML = '0';
     moves = 0;
-    //unbind click on deck to start timer
+
+    //unbind click on deck to start timer [[SHOULD BE REFACTORED!]]
     clickToStart.removeEventListener("click", function () {
     });
     //re-add first-click on deck to start timer again
@@ -229,7 +252,7 @@ function restartGame() {
         timerRunning = true;
         timerButton.innerHTML = 'Pause';
         myInterval = setInterval(myTimer, 1000);
-    
+
     }, { once: true });
 }
 
