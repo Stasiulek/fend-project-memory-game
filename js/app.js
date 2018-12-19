@@ -93,6 +93,7 @@ timerButton.addEventListener('click', function (event) {
 //MODAL
 btn.onclick = function () {
     modal.style.display = "none";
+    restartGame();
 }
 
 span.onclick = function () {
@@ -162,10 +163,11 @@ cards.forEach(function (card) {
                         matchCounter++;
                         cardCounter = [];
                         if (matchCounter == 8) {
-                            clearInterval(myInterval);
-                            modal.style.display = "block";
-                            finishTime = time.innerHTML;
-                            document.getElementById("modalTime").innerHTML = finishTime;
+                            win();
+                            // clearInterval(myInterval);
+                            // modal.style.display = "block";
+                            // finishTime = time.innerHTML;
+                            // document.getElementById("modalTime").innerHTML = finishTime;
                         }
                     }
 
@@ -198,8 +200,6 @@ function restartGame() {
     clearInterval(myInterval);
     sec = 0;
     document.getElementById("time").innerHTML = "00:00";
-    myInterval = setInterval(myTimer, 1000);
-    // timerButton.innerHTML = 'Start';
     cardCounter = [];
     matchCounter = [];
     cards.forEach(function (el) {
@@ -209,8 +209,26 @@ function restartGame() {
     starsList[0].style.display = 'inline-block';
     starsList[1].style.display = 'inline-block';
     starsList[2].style.display = 'inline-block';
+
+    //TODO write star rating to win modal
+
+
+    //unbind click on deck to start timer
+    clickToStart.removeEventListener("click", function () {
+    });
+    //re-add first-click on deck to start timer again
+    clickToStart.addEventListener("click", function () {
+        intro.innerHTML = 'Game has begun!';
+        timerRunning = true;
+        timerButton.innerHTML = 'Pause';
+        myInterval = setInterval(myTimer, 1000);
+    
+    }, { once: true });
 }
+
 
 restartBtn.addEventListener("click", function () {
     restartGame();
 })
+
+
