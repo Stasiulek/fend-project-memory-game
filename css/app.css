@@ -170,6 +170,6 @@ h3 {
     cursor:pointer;
 }
 
-.hidden {
-    display: none;
+.d-none {
+    display: none !important;
 }

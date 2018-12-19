@@ -20,7 +20,7 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 var modalTime = document.getElementById('finishTime');
 var modalMoves = document.getElementById('finishMoves');
-
+var movesValue = document.querySelector('#movesMade');
 //LOGIC vars
 var timerRunning = false;
 var myInterval = null;
@@ -31,31 +31,31 @@ var sec = 0;
 var cardCounter = [];
 var matchCounter = [];
 
-//FUNCTIONS
 
+
+//FUNCTIONS
 
 // STAR RATING (needs refactoring!)
 function moveCounter() {
-    moves++;
-    var movesValue = document.querySelector('#movesMade');
+    moves++; 
     movesValue.innerHTML = moves;
-    if (moves == 2) {
+    if (moves == 1) {
         removeStar();
-    } else if (moves == 4) {
+    } else if (moves == 2) {
         removeStar1();
-    } else if (moves == 6) {
+    } else if (moves == 3) {
         removeStar2();
     }
 }
 
 function removeStar() {
-    starsList[0].style.display = 'none';
+    starsList[0].classList.add('d-none');
 }
 function removeStar1() {
-    starsList[1].style.display = 'none';
+    starsList[1].classList.add('d-none');
 }
 function removeStar2() {
-    starsList[2].style.display = 'none';
+    starsList[2].classList.add('d-none');
 }
 
 //TIMER
@@ -139,6 +139,15 @@ function win() {
     document.getElementById("modalTime").innerHTML = finishTime;
     finishMoves = movesMade.innerHTML;
     document.getElementById("modalMoves").innerHTML = finishMoves;
+
+    var countStars = document.querySelectorAll('.stars > li').length - document.querySelectorAll('.stars > li.d-none').length;
+if (countStars !== 1) {
+    document.getElementById("starRating").innerHTML = countStars + ' stars';
+} else {
+    document.getElementById("starRating").innerHTML = countStars + ' star';
+}
+    
+
 }
 
 var cards = document.querySelectorAll('.card');
@@ -206,13 +215,11 @@ function restartGame() {
         el.classList.remove('open', 'show', 'match');
         cardCounter = [];
     });
-    starsList[0].style.display = 'inline-block';
-    starsList[1].style.display = 'inline-block';
-    starsList[2].style.display = 'inline-block';
-
-    //TODO write star rating to win modal
-
-
+    starsList[0].classList.remove('d-none');
+    starsList[1].classList.remove('d-none');
+    starsList[2].classList.remove('d-none');
+    movesValue.innerHTML = '0';
+    moves = 0;
     //unbind click on deck to start timer
     clickToStart.removeEventListener("click", function () {
     });
@@ -225,7 +232,6 @@ function restartGame() {
     
     }, { once: true });
 }
-
 
 restartBtn.addEventListener("click", function () {
     restartGame();
