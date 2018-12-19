@@ -173,3 +173,11 @@ h3 {
 .d-none {
     display: none !important;
 }
+
+#timerButton {
+    visibility: hidden;
+}
+
+/* .d-block {
+    display: block;
+} */

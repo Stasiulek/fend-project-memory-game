@@ -24,64 +24,27 @@ var movesValue = document.querySelector('#movesMade');
 //LOGIC vars
 var timerRunning = false;
 var myInterval = null;
-
 //FUNCTIONALITY/FEATURE vars init
 var moves = 0;
 var sec = 0;
 var cardCounter = [];
 var matchCounter = [];
-
-
+var i = 0;
 
 //FUNCTIONS
-
-// STAR RATING (needs refactoring!)
-// function moveCounter() {
-//     moves++;
-//     movesValue.innerHTML = moves;
-//     if (moves == 1) {
-//         removeStar();
-//     } else if (moves == 2) {
-//         removeStar();
-//     } else if (moves == 3) {
-//         removeStar();
-//     }
-// }
 
 function moveCounter() {
     moves++;
     movesValue.innerHTML = moves;
-    if (moves == 1 || moves == 2 || moves == 3 ) {
+    if (moves == 1 || moves == 2 || moves == 3) {
         removeStar();
-    } 
+    }
 }
 
-var i = 0;
 function removeStar() {
     starsList[i].classList.add('d-none');
     i++;
 }
-
-
-
-// var foo = 0;
-// function doSomething(){
-// alert(foo);
-// foo++;
-// }
-
-// function removeStar() {
-//     for (i = 0; i < starsList.length; i++) {
-//         starsList[i].classList.add('d-none');
-//         return;
-//     }
-// }
-// function removeStar1() {
-//     starsList[1].classList.add('d-none');
-// }
-// function removeStar2() {
-//     starsList[2].classList.add('d-none');
-// }
 
 //TIMER
 function pad(val) {
@@ -98,7 +61,7 @@ function myTimer() {
 clickToStart.addEventListener("click", function () {
     intro.innerHTML = 'Game has begun!';
     timerRunning = true;
-    timerButton.innerHTML = 'Pause';
+    timerButton.style.visibility = "visible";
     myInterval = setInterval(myTimer, 1000);
 
 }, { once: true });
@@ -120,11 +83,9 @@ btn.onclick = function () {
     modal.style.display = "none";
     restartGame();
 }
-
 span.onclick = function () {
     modal.style.display = "none";
 }
-
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
@@ -174,6 +135,7 @@ function win() {
     }
 }
 
+//check for match
 var cards = document.querySelectorAll('.card');
 cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
@@ -240,6 +202,7 @@ function restartGame() {
     starsList[0].classList.remove('d-none');
     starsList[1].classList.remove('d-none');
     starsList[2].classList.remove('d-none');
+    timerButton.style.visibility = "hidden";
     movesValue.innerHTML = '0';
     moves = 0;
 
@@ -250,7 +213,7 @@ function restartGame() {
     clickToStart.addEventListener("click", function () {
         intro.innerHTML = 'Game has begun!';
         timerRunning = true;
-        timerButton.innerHTML = 'Pause';
+        timerButton.style.visibility = "visible";
         myInterval = setInterval(myTimer, 1000);
 
     }, { once: true });
