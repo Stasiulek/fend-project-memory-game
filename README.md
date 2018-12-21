@@ -1,20 +1,24 @@
-# Memory Game Project
+## Memory Game
 
-## Table of Contents
+A browser-based version of the classic [Concentration Game](https://en.wikipedia.org/wiki/Concentration_(game)). Powered by vanilla JavaScript and CSS.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+Visit [Memory Game](https://stasiulek.github.io/memory-game/) to start playing.
 
-## Instructions
+## Object
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Match all cards in the deck in the fewest moves and shortest time.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## How To Play
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+Click or tap on a card to flip it over, remeber what symbol it has. Flip another card over, if it matches the first, both cards will remain turned symbol-face up. if they do not match, both will flip back over. Uncover the whole deck to win.
 
-## Contributing
+## Restart
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Hit the restart symbol to start again. The deck of cards will be shuffled and your moves and timer will be reset.
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## H4ck
+
+Write your own scripts to the console to <em>game</em> the game...
+
+Head over to [Memory Game](https://stasiulek.github.io/memory-game/) to test your memory!
+
