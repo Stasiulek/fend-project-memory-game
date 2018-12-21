@@ -2,7 +2,7 @@
 
 A browser-based version of the classic [Concentration Game](https://en.wikipedia.org/wiki/Concentration_(game)). Powered by vanilla JavaScript and CSS.
 
-Visit [Memory Game](https://stasiulek.github.io/memory-game/) to start playing.
+Click [here](https://stasiulek.github.io/memory-game/) to start playing.
 
 ## Object
 
@@ -20,5 +20,5 @@ Hit the restart symbol to start again. The deck of cards will be shuffled and yo
 
 Write your own scripts to the console to <em>game</em> the game...
 
-Head over to [Memory Game](https://stasiulek.github.io/memory-game/) to test your memory!
+
 
