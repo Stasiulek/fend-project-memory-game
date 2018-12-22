@@ -217,33 +217,3 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
-
-
-userSubmit.onclick = function (e) {
-    promptUser();
-}
-
-function promptUser() {
-    var userName = prompt("Please enter your name", "Some gender-neutral name");
-    if (userName != null && userName === 'Nadja' || userName === 'nadja' || userName === 'potor' ||userName === 'Potor' || userName === 'Bubba') {
-        alert('Hey Bubba, I miss you and I love you very much! Pssst..');
-    } else if (userName != null && userName === 'Joe' || userName === 'Joseph' || userName === 'joe' || userName === 'joseph') {
-        alert('Hey Joey you QT pie');
-    } else if (userName != null && userName === 'Josh' || userName === 'josh' || userName === 'jish' || userName === 'joshua' || userName === 'Jish') {
-        alert('Hey Jish doddi is watching you and knows u r a fgt');
-    }else if (userName != null && userName === 'Vince' || userName === 'vince' || userName === 'Vincent' || userName === 'vincent') {
-        alert('salut Salope, all hail Satan');
-    }
-    else if (userName != null) {
-        alert('Hello ' + userName);
-    }
-}
-
-
-//   case 1: john / John
-
-//   case 2: Vince / Vincent
-
-//   case 3: Chibi / Andrea
-
-//   case 4: Nadja / Potor / Potot / Bubba / Skarb
