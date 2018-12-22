@@ -177,7 +177,7 @@ function addCardEvents() {
 function moveCounter() {
     moves++;
     movesValue.innerHTML = moves;
-    if (moves == 1 || moves == 2 || moves == 3) {
+    if (moves == 12 || moves == 16 || moves == 20) {
         removeStar();
     }
 }
@@ -231,6 +231,8 @@ function promptUser() {
         alert('Hey Joey you QT pie');
     } else if (userName != null && userName === 'Josh' || userName === 'josh' || userName === 'jish' || userName === 'joshua' || userName === 'Jish') {
         alert('Hey Jish doddi is watching you and knows u r a fgt');
+    }else if (userName != null && userName === 'Vince' || userName === 'vince' || userName === 'Vincent' || userName === 'vincent') {
+        alert('salut Salope, all hail Satan');
     }
     else if (userName != null) {
         alert('Hello ' + userName);

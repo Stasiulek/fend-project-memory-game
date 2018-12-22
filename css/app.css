@@ -225,12 +225,13 @@ h3 {
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   font-size: 3rem;
+  margin-bottom: 3rem;
 }
 #userSubmit {
     padding: 2rem;
     font-size: 3rem;
     background-color: pink;
-    animation: blinker 1s linear infinite;
+    animation: blinker 1.25s linear infinite;
 }
 @keyframes blinker {  
     50% { opacity: 0; }
