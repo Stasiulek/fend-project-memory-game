@@ -16,7 +16,7 @@ Click or tap on a card to flip it over, remeber what symbol it has. Flip another
 
 Hit the restart symbol to start again. The deck of cards will be shuffled and your moves and timer will be reset.
 
-## H4ck
+## H4x
 
 Write your own scripts to the console to <em>game</em> the game...
 
