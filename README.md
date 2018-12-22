@@ -2,7 +2,7 @@
 
 A browser-based version of the classic *[Concentration Game](https://en.wikipedia.org/wiki/Concentration_(game))* (powered by vanilla JavaScript and CSS).
 
-Visit **[this](https://stasiulek.github.io/memory-game/)** page to start playing.
+**[Visit this page](https://stasiulek.github.io/memory-game/)** to play.
 
 ## Object
 
