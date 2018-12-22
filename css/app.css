@@ -45,7 +45,7 @@ h3 {
 }
 
 .deck {
-    max-width: 660px;
+    max-width: 90%;
     margin-top: 0;
     width: 100%;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
@@ -61,6 +61,7 @@ h3 {
 @media screen and (min-width: 700px) {
     .deck {
         grid-gap: 1rem;
+        max-width: 660px !important;
     }
         
 }
